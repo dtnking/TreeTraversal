@@ -10,5 +10,13 @@ struct Node{
   uint32_t data;
 };
 
+typedef struct StringNode StringNode;
+struct StringNode{
+  StringNode *left;
+  StringNode *right;
+  char *data;
+};
+
+
 
 #endif // _NODE_H
