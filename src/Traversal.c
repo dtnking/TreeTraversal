@@ -18,6 +18,16 @@ void inOrderTreeTraversal(Node *node){
     inOrderTreeTraversal(node->right);
 }
 
+
+void _preOrderTreeTraversal(Node *node, \
+                           void(*print)(Node *node)){
+  print(node);
+  if(node->left != NULL)
+    _preOrderTreeTraversal(node->left,print);
+  if(node->right != NULL)
+    _preOrderTreeTraversal(node->right,print);
+}
+
 void preOrderTreeTraversal(Node *node){
   printf("%d, ",node->data);
   if(node->left != NULL)

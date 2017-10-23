@@ -25,9 +25,56 @@ StringNode nodeAbraham = {&nodeAli,&nodeAbu,"Abraham"};
 StringNode nodeNoah = {&nodeDavid,&nodeSteven,"Noah"};
 StringNode nodeAdam = {&nodeAbraham,&nodeNoah,"Adam"};
 
-void setUp(void){}
+int inOrderGoldenValues[] =  {1,2,3,4,5,7,10,15,20,24,25,28};
+int preOrderGoldenValues[] =  {10,4,2,1,3,5,7,20,15,25,24,28};
+int postOrderGoldenValues[] =  {1,3,2,7,5,4,15,24,28,25,20,10};
+
+int curIndex;
+int indexLimit;
+int *goldenIntValues;
+
+void setUp(void){
+  curIndex = 0;
+}
 
 void tearDown(void){}
+
+void verifyIntegers(Node *node){
+  char error[1020];
+  if(goldenIntValues[curIndex] != node->data){
+    sprintf(error,"At index %d , expected %d but was %d",         \
+            curIndex, goldenIntValues[curIndex],node->data);
+    TEST_FAIL_MESSAGE(error);
+  }
+  if(curIndex >= indexLimit){
+    sprintf(error,"The number of values is greater than the number of golden values (%d)",indexLimit);
+    TEST_FAIL_MESSAGE(error);
+  }
+  curIndex++;
+}
+
+void test__inOrder_TreeTraversal_is_correct_order(void){
+  goldenIntValues = inOrderGoldenValues;
+  indexLimit = sizeof(inOrderGoldenValues)/sizeof(int);
+  _inOrderTreeTraversal(&node10,verifyIntegers);
+  if(curIndex < indexLimit){
+    char error[1028];
+    sprintf(error,"The number of values is lesser than the number of golden values (%d)",indexLimit);
+    TEST_FAIL_MESSAGE(error);
+  }
+}
+
+void test__preOrder_TreeTraversal_is_correct_order(void){
+  goldenIntValues = preOrderGoldenValues;
+  indexLimit = sizeof(preOrderGoldenValues)/sizeof(int);
+  _preOrderTreeTraversal(&node10,verifyIntegers);
+  if(curIndex < indexLimit){
+    char error[1028];
+    sprintf(error,"The number of values is lesser than the number of golden values (%d)",indexLimit);
+    TEST_FAIL_MESSAGE(error);
+  }
+}
+
 
 void test__inOrder_TreeTraversal_with_printInteger(void){
   _inOrderTreeTraversal(&node10,printInterger);
